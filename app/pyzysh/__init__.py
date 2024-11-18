@@ -1,5 +1,4 @@
 import requests
-from requests.auth import HTTPBasicAuth
 from urllib.parse import urlencode
 from bs4 import BeautifulSoup
 import json
@@ -84,7 +83,14 @@ class Client:
                 line = line.strip()  # Remove any leading/trailing whitespace
                 if len(line) > 0 and line.startswith("var ") and line.endswith(";"):
                     # Remove prefix and suffix
-                    cleaned_line = line.removeprefix("var ").removesuffix(";")
+                    cleaned_line = (
+                        line[len("var ") :] if line.startswith("var ") else line
+                    )
+                    cleaned_line = (
+                        cleaned_line[:-1]
+                        if cleaned_line.endswith(";")
+                        else cleaned_line
+                    )
                     # Split into key-value pair
                     if "=" in cleaned_line:
                         key, value = cleaned_line.split("=", 1)
