@@ -4,6 +4,9 @@ from prometheus_client import start_http_server, Gauge, generate_latest, Counter
 from flask import Flask
 from datetime import datetime
 import yaml, sys
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Get config file path from YAML file from args if provided
 if len(sys.argv) > 1:
